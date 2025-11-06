@@ -1,0 +1,13 @@
+#!/home/keito/anaconda3/bin/python3
+# SPDX-FileCopyrightTest: 2025 Keito Tadano
+
+import sys
+
+ans = 0
+for line in sys.stdin:
+    try:
+        ans += int(line)
+    except:
+        ans += float(line)
+
+print(ans)
