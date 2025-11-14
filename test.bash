@@ -1,4 +1,4 @@
-#!/usr/bin/bash -xv
+#!/bin/bash -xv
 # SPDX-FileCopyrightTest: 2025 Keito Tadano
 # SPDX-License-Identifier: GPL-3.0-only
 
