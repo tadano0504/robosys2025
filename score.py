@@ -62,10 +62,8 @@ def main():
     away = match["awayTeam"]["name"]
     score = match.get("score", {}).get("fullTime")
 
-    # 日付
     print(date)
 
-    # 相手チーム名（自分は出さない）
     if home.lower() == team_name.lower():
         opponent = away
         my_score = score["home"]
@@ -77,7 +75,6 @@ def main():
 
     print(opponent)
 
-    # 勝敗判定
     if my_score > opp_score:
         result = "WIN"
     elif my_score < opp_score:
@@ -85,7 +82,6 @@ def main():
     else:
         result = "DRAW"
 
-    # “WIN 2-0” の形式で表示
     print(f"{result} {my_score}-{opp_score}")
 
 if __name__ == "__main__":
