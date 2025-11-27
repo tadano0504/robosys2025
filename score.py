@@ -1,88 +1,111 @@
-#!/usr/bin/env python3
+#!/home/keito/anaconda3/bin/python3
+# SPDX-FileCopyrightTest: 2025 Keito Tadano
+# SPDX-License-Identifier: GPL-3.0-only
+
 import requests
 import sys
 
 API_KEY = "2c4165142758434abcfab08ee6203d49"
-
 BASE = "https://api.football-data.org/v4"
 HEADERS = {"X-Auth-Token": API_KEY}
 
-def get_team_id(name):
+ENGLISH_NAMES = {
+    "Athletic Club": "Athletic Bilbao",
+    "Club Atlético de Madrid": "Atletico Madrid",
+    "CA Osasuna": "Osasuna",
+    "RCD Espanyol de Barcelona": "Espanyol",
+    "FC Barcelona": "Barcelona",
+    "Getafe CF": "Getafe",
+    "Real Madrid CF": "Real Madrid",
+    "Rayo Vallecano de Madrid": "Rayo Vallecano",
+    "Levante UD": "Levante",
+    "RCD Mallorca": "Mallorca",
+    "Real Betis Balompié": "Real Betis",
+    "Real Sociedad de Fútbol": "Real Sociedad",
+    "Villarreal CF": "Villarreal",
+    "Valencia CF": "Valencia",
+    "Deportivo Alavés": "Alaves",
+    "Elche CF": "Elche",
+    "Girona FC": "Girona",
+    "RC Celta de Vigo": "Celta Vigo",
+    "Sevilla FC": "Sevilla",
+    "Real Oviedo": "Real Oviedo"
+}
+
+
+def load_laliga_teams():
     url = f"{BASE}/competitions/PD/teams"
     r = requests.get(url, headers=HEADERS)
     data = r.json()
-
     teams = data.get("teams", [])
-
+    result = {}
     for t in teams:
-        if t["name"].lower() == name.lower():
-            return t["id"]
+        es = t["name"]
+        en = ENGLISH_NAMES.get(es, es)
+        result[en.lower()] = {"id": t["id"], "name_en": en}
+    return result
 
-    for t in teams:
-        if name.lower() in t["name"].lower():
-            return t["id"]
 
-    return None
-
-def get_latest_match(team_id):
+def get_latest_finished_match(team_id):
     url = f"{BASE}/teams/{team_id}/matches?limit=50"
     r = requests.get(url, headers=HEADERS)
-    data = r.json()
-
-    matches = data.get("matches", [])
-    if not matches:
-        return None
-
-    matches = sorted(matches, key=lambda m: m["utcDate"], reverse=True)
-
+    matches = r.json().get("matches", [])
+    matches = sorted(matches, key=lambda x: x["utcDate"], reverse=True)
     for m in matches:
         if m["status"] == "FINISHED":
             return m
+    return None
 
-    return matches[0]
 
 def main():
     if len(sys.argv) < 2:
-        print("usage: score.py <team name>")
+        print("使い方: score.py <チーム名>")
         sys.exit(1)
 
-    team_name = " ".join(sys.argv[1:])
-    team_id = get_team_id(team_name)
-    if team_id is None:
-        print("no data")
+    input_name = " ".join(sys.argv[1:]).lower()
+    teams = load_laliga_teams()
+
+    if input_name not in teams:
+        print("入力したチーム名が見つかりません。以下の中から正しい英語名を入力してください：")
+        for name in sorted(teams.keys()):
+            print(teams[name]["name_en"])
         return
 
-    match = get_latest_match(team_id)
+    team = teams[input_name]
+    match = get_latest_finished_match(team["id"])
+
     if not match:
-        print("no data")
+        print("データがありません")
         return
 
     date = match["utcDate"]
     home = match["homeTeam"]["name"]
     away = match["awayTeam"]["name"]
-    score = match.get("score", {}).get("fullTime")
 
-    print(date)
+    home = ENGLISH_NAMES.get(home, home)
+    away = ENGLISH_NAMES.get(away, away)
 
-    if home.lower() == team_name.lower():
-        opponent = away
-        my_score = score["home"]
-        opp_score = score["away"]
+    score = match["score"]["fullTime"]
+    h, a = score["home"], score["away"]
+
+    if home.lower() == team["name_en"].lower():
+        team_score = h
+        opp_score = a
     else:
-        opponent = home
-        my_score = score["away"]
-        opp_score = score["home"]
+        team_score = a
+        opp_score = h
 
-    print(opponent)
-
-    if my_score > opp_score:
+    if team_score > opp_score:
         result = "WIN"
-    elif my_score < opp_score:
+    elif team_score < opp_score:
         result = "LOSE"
     else:
         result = "DRAW"
 
-    print(f"{result} {my_score}-{opp_score}")
+    print(date)
+    print(away if home == team["name_en"] else home)
+    print(f"{result} {h}-{a}")
+
 
 if __name__ == "__main__":
     main()
