@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-# SPDX-FileCopyrightTest: 2025 Keito Tadano
+# SPDX-FileCopyrightText: 2025 Keito Tadano
 # SPDX-License-Identifier: GPL-3.0-only
 
 import requests
 import sys
 
-API_KEY = "2c4165142758434abcfab08ee6203d49"
+API_KEY = "YOUR_API_KEY"
 BASE = "https://api.football-data.org/v4"
 HEADERS = {
     "X-Auth-Token": API_KEY,
@@ -59,14 +59,14 @@ def get_latest_finished_match(team_id):
 
 def main():
     if len(sys.argv) < 2:
-        print("usage: score.py <team name>")
+        print("使い方: score.py <チーム名>")
         return
 
     input_name = " ".join(sys.argv[1:]).lower()
     teams = load_laliga_teams()
 
     if input_name not in teams:
-        print("Team not found. Valid teams:")
+        print("入力したチーム名が見つかりません。以下の中から正しい英語名を入力してください：")
         for name in sorted(teams.keys()):
             print(teams[name]["name_en"])
         return
@@ -75,7 +75,7 @@ def main():
     match = get_latest_finished_match(team["id"])
 
     if not match:
-        print("no data")
+        print("データがありません")
         return
 
     date = match["utcDate"]
@@ -90,11 +90,11 @@ def main():
     if home.lower() == team["name_en"].lower():
         team_score = h
         opp_score = a
-        opponent_name = away
+        opponent = away
     else:
         team_score = a
         opp_score = h
-        opponent_name = home
+        opponent = home
 
     if team_score > opp_score:
         result = "WIN"
@@ -104,7 +104,7 @@ def main():
         result = "DRAW"
 
     print(date)
-    print(opponent_name)
+    print(opponent)
     print(f"{result} {h}-{a}")
 
 if __name__ == "__main__":
