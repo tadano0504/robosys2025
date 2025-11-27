@@ -1,11 +1,11 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 # SPDX-FileCopyrightTest: 2025 Keito Tadano
 # SPDX-License-Identifier: GPL-3.0-only
 
 import requests
 import sys
 
-API_KEY = "2c4165142758434abcfab08ee6203d49"
+API_KEY = "ここに自分のAPIキー"
 BASE = "https://api.football-data.org/v4"
 HEADERS = {"X-Auth-Token": API_KEY}
 
@@ -38,6 +38,7 @@ def load_laliga_teams():
     r = requests.get(url, headers=HEADERS)
     data = r.json()
     teams = data.get("teams", [])
+
     result = {}
     for t in teams:
         es = t["name"]
@@ -50,11 +51,20 @@ def get_latest_finished_match(team_id):
     url = f"{BASE}/teams/{team_id}/matches?limit=50"
     r = requests.get(url, headers=HEADERS)
     matches = r.json().get("matches", [])
+
+    if not matches:
+        return None
+
+    # 新しい順
     matches = sorted(matches, key=lambda x: x["utcDate"], reverse=True)
+
+    # ① FINISHED を優先
     for m in matches:
-        if m["status"] == "FINISHED":
+        if m["status"] in ["FINISHED", "AWARDED"]:
             return m
-    return None
+
+    # ② なければ最新試合
+    return matches[0]
 
 
 def main():
@@ -79,31 +89,33 @@ def main():
         return
 
     date = match["utcDate"]
-    home = match["homeTeam"]["name"]
-    away = match["awayTeam"]["name"]
-
-    home = ENGLISH_NAMES.get(home, home)
-    away = ENGLISH_NAMES.get(away, away)
+    home = ENGLISH_NAMES.get(match["homeTeam"]["name"], match["homeTeam"]["name"])
+    away = ENGLISH_NAMES.get(match["awayTeam"]["name"], match["awayTeam"]["name"])
 
     score = match["score"]["fullTime"]
-    h, a = score["home"], score["away"]
+    h = score.get("home", 0)
+    a = score.get("away", 0)
 
-    if home.lower() == team["name_en"].lower():
-        team_score = h
-        opp_score = a
-    else:
-        team_score = a
-        opp_score = h
+    status = match["status"]
 
-    if team_score > opp_score:
-        result = "WIN"
-    elif team_score < opp_score:
-        result = "LOSE"
+    if status not in ["FINISHED", "AWARDED"]:
+        # LIVE / IN_PLAY / TIMED など
+        result = status
     else:
-        result = "DRAW"
+        # FINISHED のときだけ勝敗判定
+        if h > a:
+            result = "WIN"
+        elif h < a:
+            result = "LOSE"
+            pass
+        else:
+            result = "DRAW"
+
+    # 相手チーム名を表示
+    opponent = away if home == team["name_en"] else home
 
     print(date)
-    print(away if home == team["name_en"] else home)
+    print(opponent)
     print(f"{result} {h}-{a}")
 
 
