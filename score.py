@@ -1,4 +1,4 @@
-#!/home/keito/anaconda3/bin/python3
+#!/usr/bin/python3
 # SPDX-FileCopyrightTest: 2025 Keito Tadano
 # SPDX-License-Identifier: GPL-3.0-only
 
