@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2025 Keito Tadano
 # SPDX-License-Identifier: GPL-3.0-only
+
 import requests
 import sys
 
@@ -56,7 +57,7 @@ def get_latest_finished_match(team_id):
 def main():
     if len(sys.argv) < 2:
         print("使い方: score.py <チーム名>")
-        return
+        sys.exit(1)
 
     input_name = " ".join(sys.argv[1:]).lower()
     teams = load_laliga_teams()
@@ -65,22 +66,18 @@ def main():
         print("入力したチーム名が見つかりません。以下の英語名の中から正しく入力してください：\n")
         for name in sorted(teams.keys()):
             print(teams[name]["name_en"])
-        return
+        sys.exit(0)
 
     team = teams[input_name]
     match = get_latest_finished_match(team["id"])
 
     if not match:
         print("データがありません")
-        return
+        sys.exit(0)
 
     date = match["utcDate"]
-    home = match["homeTeam"]["name"]
-    away = match["awayTeam"]["name"]
-
-    home = ENGLISH_NAMES.get(home, home)
-    away = ENGLISH_NAMES.get(away, away)
-
+    home = ENGLISH_NAMES.get(match["homeTeam"]["name"], match["homeTeam"]["name"])
+    away = ENGLISH_NAMES.get(match["awayTeam"]["name"], match["awayTeam"]["name"])
     score = match["score"]["fullTime"]
     h, a = score["home"], score["away"]
 
