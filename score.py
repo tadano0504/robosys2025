@@ -1,16 +1,12 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2025 Keito Tadano
 # SPDX-License-Identifier: GPL-3.0-only
-
 import requests
 import sys
 
-API_KEY = "YOUR_API_KEY"
+API_KEY = "2c4165142758434abcfab08ee6203d49"
 BASE = "https://api.football-data.org/v4"
-HEADERS = {
-    "X-Auth-Token": API_KEY,
-    "User-Agent": "KeitoScoreScript/1.0"
-}
+HEADERS = {"X-Auth-Token": API_KEY}
 
 ENGLISH_NAMES = {
     "Athletic Club": "Athletic Bilbao",
@@ -66,7 +62,7 @@ def main():
     teams = load_laliga_teams()
 
     if input_name not in teams:
-        print("入力したチーム名が見つかりません。以下の中から正しい英語名を入力してください：")
+        print("入力したチーム名が見つかりません。以下の英語名の中から正しく入力してください：\n")
         for name in sorted(teams.keys()):
             print(teams[name]["name_en"])
         return
@@ -81,6 +77,7 @@ def main():
     date = match["utcDate"]
     home = match["homeTeam"]["name"]
     away = match["awayTeam"]["name"]
+
     home = ENGLISH_NAMES.get(home, home)
     away = ENGLISH_NAMES.get(away, away)
 
@@ -90,11 +87,9 @@ def main():
     if home.lower() == team["name_en"].lower():
         team_score = h
         opp_score = a
-        opponent = away
     else:
         team_score = a
         opp_score = h
-        opponent = home
 
     if team_score > opp_score:
         result = "WIN"
@@ -104,7 +99,7 @@ def main():
         result = "DRAW"
 
     print(date)
-    print(opponent)
+    print(away if home == team["name_en"] else home)
     print(f"{result} {h}-{a}")
 
 if __name__ == "__main__":
