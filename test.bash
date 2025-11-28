@@ -37,7 +37,7 @@ echo "$out" | grep -Eq "データがありません|[0-9]{4}.*-.*" || ng "$LINEN
 
 ### 異常文字列テスト ###
 out=$($CMD "" 2>&1)
-[ "$?" != 0 ] || ng "$LINENO"
+echo "$out" | grep -q "見つかりません" || ng "$LINENO"
 
 out=$($CMD "@#$%^&*" 2>&1)
 echo "$out" | grep -q "見つかりません" || ng "$LINENO"
