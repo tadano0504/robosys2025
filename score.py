@@ -2,8 +2,8 @@
 # SPDX-FileCopyrightText: 2025 Keito Tadano
 # SPDX-License-Identifier: GPL-3.0-only
 
-import requests
 import sys
+import requests
 
 API_KEY = "2c4165142758434abcfab08ee6203d49"
 BASE = "https://api.football-data.org/v4"
@@ -55,20 +55,31 @@ def get_latest_finished_match(team_id):
     return None
 
 def main():
-    if len(sys.argv) < 2:
-        print("使い方: score.py <チーム名>")
+    line = sys.stdin.readline()
+
+    if line == "" or line == "\n":
+        print('使い方: echo "<チーム名>" | score.py')
         sys.exit(1)
 
-    input_name = " ".join(sys.argv[1:]).lower()
-    teams = load_laliga_teams()
+    input_name = line.rstrip("\n")
 
-    if input_name not in teams:
-        print("入力したチーム名が見つかりません。以下の英語名の中から正しく入力してください：\n")
+    if input_name.strip() == "":
+        print("入力したチーム名が見つかりません")
+        teams = load_laliga_teams()
         for name in sorted(teams.keys()):
             print(teams[name]["name_en"])
         sys.exit(0)
 
-    team = teams[input_name]
+    key = input_name.lower()
+    teams = load_laliga_teams()
+
+    if key not in teams:
+        print("入力したチーム名が見つかりません")
+        for name in sorted(teams.keys()):
+            print(teams[name]["name_en"])
+        sys.exit(0)
+
+    team = teams[key]
     match = get_latest_finished_match(team["id"])
 
     if not match:
@@ -82,15 +93,13 @@ def main():
     h, a = score["home"], score["away"]
 
     if home.lower() == team["name_en"].lower():
-        team_score = h
-        opp_score = a
+        ts, os_ = h, a
     else:
-        team_score = a
-        opp_score = h
+        ts, os_ = a, h
 
-    if team_score > opp_score:
+    if ts > os_:
         result = "WIN"
-    elif team_score < opp_score:
+    elif ts < os_:
         result = "LOSE"
     else:
         result = "DRAW"
