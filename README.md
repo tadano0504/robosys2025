@@ -1,4 +1,6 @@
 # robosys2025
+![CI](https://github.com/tadano0504/robosys2025/actions/workflows/test.yml/badge.svg)
+
 本リポジトリは千葉工業大学 未来ロボティクス学科 2025年度 ロボットシステム学内で行った内容に基づいて作成された練習用リポジトリです。
 
 # score
@@ -6,7 +8,6 @@
 標準入力で与えられたLa Ligaに所属する全20チームに対して、
 そのチームの **最新試合の日時・対戦相手・結果** を取得して表示するコマンドです。  
 入力されたチーム名が存在しない場合は、利用可能なチーム一覧を表示します。
-![CI](https://github.com/tadano0504/robosys2025/actions/workflows/test.yml/badge.svg)
 
 ## テスト環境
 OS            : Ubuntu 22.04.5 LTS / Windows 11  
