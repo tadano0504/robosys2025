@@ -14,7 +14,7 @@ OS            : Ubuntu 22.04.5 LTS / Windows 11
 python-version: 3.7 ~ 3.12  
 確認環境      : Ubuntu 22.04.5 LTS + GitHub Actions (CI)
 
-## 使い方
+## 使用準備
 下記のコマンドを使用し、クローンを行ってください。
 
 ```shell
@@ -22,9 +22,8 @@ $ git clone https://github.com/tadano0504/robosys2025.git
 $ cd robosys2025
 ```
 
+## 使い方
 標準入力からチーム名を入力します。
-
-実行例
 
 実行例（Real Madrid の試合結果を取得）:
 
