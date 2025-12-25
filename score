@@ -29,7 +29,7 @@ ENGLISH_NAMES = {
     "Girona FC": "Girona",
     "RC Celta de Vigo": "Celta Vigo",
     "Sevilla FC": "Sevilla",
-    "Real Oviedo": "Real Oviedo"
+    "Real Oviedo": "Real Oviedo",
 }
 
 def load_laliga_teams():
@@ -54,30 +54,32 @@ def get_latest_finished_match(team_id):
             return m
     return None
 
+def print_team_list(teams):
+    for name in sorted(teams.keys()):
+        print(teams[name]["name_en"], file=sys.stderr)
+
 def main():
     line = sys.stdin.readline()
 
     if line == "" or line == "\n":
-        print('使い方: echo "<チーム名>" | score')
+        print('使い方: echo "<チーム名>" | score', file=sys.stderr)
         sys.exit(1)
 
     input_name = line.rstrip("\n")
 
-    if input_name.strip() == "":
-        print("入力したチーム名が見つかりません")
-        teams = load_laliga_teams()
-        for name in sorted(teams.keys()):
-            print(teams[name]["name_en"])
-        sys.exit(0)
-
-    key = input_name.lower()
     teams = load_laliga_teams()
 
+    if input_name.strip() == "":
+        print("入力したチーム名が見つかりません", file=sys.stderr)
+        print_team_list(teams)
+        sys.exit(1)
+
+    key = input_name.lower()
+
     if key not in teams:
-        print("入力したチーム名が見つかりません")
-        for name in sorted(teams.keys()):
-            print(teams[name]["name_en"])
-        sys.exit(0)
+        print("入力したチーム名が見つかりません", file=sys.stderr)
+        print_team_list(teams)
+        sys.exit(1)
 
     team = teams[key]
     match = get_latest_finished_match(team["id"])
@@ -89,13 +91,16 @@ def main():
     date = match["utcDate"]
     home = ENGLISH_NAMES.get(match["homeTeam"]["name"], match["homeTeam"]["name"])
     away = ENGLISH_NAMES.get(match["awayTeam"]["name"], match["awayTeam"]["name"])
+
     score = match["score"]["fullTime"]
     h, a = score["home"], score["away"]
 
     if home.lower() == team["name_en"].lower():
         ts, os_ = h, a
+        opponent = away
     else:
         ts, os_ = a, h
+        opponent = home
 
     if ts > os_:
         result = "WIN"
@@ -105,8 +110,10 @@ def main():
         result = "DRAW"
 
     print(date)
-    print(away if home == team["name_en"] else home)
+    print(opponent)
     print(f"{result} {h}-{a}")
+
+    sys.exit(0)
 
 if __name__ == "__main__":
     main()
