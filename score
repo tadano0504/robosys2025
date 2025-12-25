@@ -69,14 +69,14 @@ def main():
     if input_name.strip() == "":
         print("入力したチーム名が見つかりません", file=sys.stderr)
         print_team_list(teams)
-        sys.exit(0)
+        sys.exit(1)
 
     key = input_name.lower()
 
     if key not in teams:
         print("入力したチーム名が見つかりません", file=sys.stderr)
         print_team_list(teams)
-        sys.exit(0)
+        sys.exit(1)
 
     team = teams[key]
     match = get_latest_finished_match(team["id"])
