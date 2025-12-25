@@ -35,8 +35,7 @@ ENGLISH_NAMES = {
 def load_laliga_teams():
     url = f"{BASE}/competitions/PD/teams"
     r = requests.get(url, headers=HEADERS)
-    data = r.json()
-    teams = data.get("teams", [])
+    teams = r.json().get("teams", [])
     result = {}
     for t in teams:
         es = t["name"]
@@ -47,8 +46,7 @@ def load_laliga_teams():
 def get_latest_finished_match(team_id):
     url = f"{BASE}/teams/{team_id}/matches?limit=50"
     r = requests.get(url, headers=HEADERS)
-    matches = r.json().get("matches", [])
-    matches = sorted(matches, key=lambda x: x["utcDate"], reverse=True)
+    matches = sorted(r.json().get("matches", []), key=lambda x: x["utcDate"], reverse=True)
     for m in matches:
         if m["status"] == "FINISHED":
             return m
@@ -66,20 +64,19 @@ def main():
         sys.exit(1)
 
     input_name = line.rstrip("\n")
-
     teams = load_laliga_teams()
 
     if input_name.strip() == "":
         print("入力したチーム名が見つかりません", file=sys.stderr)
         print_team_list(teams)
-        sys.exit(1)
+        sys.exit(0)
 
     key = input_name.lower()
 
     if key not in teams:
         print("入力したチーム名が見つかりません", file=sys.stderr)
         print_team_list(teams)
-        sys.exit(1)
+        sys.exit(0)
 
     team = teams[key]
     match = get_latest_finished_match(team["id"])
@@ -92,8 +89,8 @@ def main():
     home = ENGLISH_NAMES.get(match["homeTeam"]["name"], match["homeTeam"]["name"])
     away = ENGLISH_NAMES.get(match["awayTeam"]["name"], match["awayTeam"]["name"])
 
-    score = match["score"]["fullTime"]
-    h, a = score["home"], score["away"]
+    h = match["score"]["fullTime"]["home"]
+    a = match["score"]["fullTime"]["away"]
 
     if home.lower() == team["name_en"].lower():
         ts, os_ = h, a
