@@ -8,7 +8,7 @@ ng () {
 }
 
 res=0
-CMD="./score.py"
+CMD="./score"
 
 out=$(echo "" | $CMD 2>&1)
 ret=$?

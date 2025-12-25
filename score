@@ -58,7 +58,7 @@ def main():
     line = sys.stdin.readline()
 
     if line == "" or line == "\n":
-        print('使い方: echo "<チーム名>" | score.py')
+        print('使い方: echo "<チーム名>" | score')
         sys.exit(1)
 
     input_name = line.rstrip("\n")
