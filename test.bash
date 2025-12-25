@@ -17,7 +17,7 @@ echo "$out" | grep -q "使い方" || ng "$LINENO"
 
 out=$(echo "abcdefg" | $CMD 2>&1)
 ret=$?
-[ "$ret" = 0 ] || ng "$LINENO"
+[ "$ret" = 1 ] || ng "$LINENO"
 echo "$out" | grep -q "入力したチーム名が見つかりません" || ng "$LINENO"
 
 out=$(echo "Real Madrid" | $CMD 2>&1)
