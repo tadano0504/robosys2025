@@ -80,5 +80,5 @@ $ echo "abcdef" | ./score
 
 ## 著作権・ライセンス
 - このソフトウェアパッケージは、GNU General Public License v3.0（GPL-3.0-only）の下、再頒布および使用が許可されています。
-- この[README](https://github.com/tadano0504/robosys2025/blob/main/README.md)は、[asnm1208](https://github.com/asnm1208)の[robosys2025](https://github.com/asnm1208/robosys2024/blob/main/README.md)(© 2025 asnm1208)を参考に作られています。
+- この[README](https://github.com/tadano0504/robosys2025/blob/main/README.md)は、[asnm1208](https://github.com/asnm1208)の[robosys2025](https://github.com/asnm1208/robosys2025/blob/main/README.md)(© 2025 asnm1208)と[Tsutaya113](https://github.com/Tsutaya113)の[robosys2025](https://github.com/Tsutaya113/robosys2025/blob/main/README.md)(© 2025 Tsutaya113)を参考に作られています。
 - © 2025 Tadano Keito
