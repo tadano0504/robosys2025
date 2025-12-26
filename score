@@ -82,8 +82,9 @@ def main():
     match = get_latest_finished_match(team["id"])
 
     if not match:
-        print("データがありません")
-        sys.exit(0)
+        print("データがありません", file=sys.stderr)
+        sys.exit(1)
+
 
     date = match["utcDate"]
     home = ENGLISH_NAMES.get(match["homeTeam"]["name"], match["homeTeam"]["name"])

@@ -22,7 +22,7 @@ echo "$out" | grep -q "入力したチーム名が見つかりません" || ng "
 
 out=$(echo "Real Madrid" | $CMD 2>&1)
 ret=$?
-[ "$ret" = 0 ] || ng "$LINENO"
+[ "$ret" = 0 ] || [ "$ret" = 1 ] || ng "$LINENO"
 echo "$out" | grep -Eq "データがありません|[0-9]{4}-[0-9]{2}-[0-9]{2}" || ng "$LINENO"
 
 out=$(echo "@#$%^&*" | $CMD 2>&1)
