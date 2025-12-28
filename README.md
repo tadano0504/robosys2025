@@ -79,6 +79,6 @@ $ echo "abcdef" | ./score
 - 不正な入力の場合は終了ステータス1で終了します。
 
 ## 著作権・ライセンス
-- このソフトウェアパッケージは、GNU General Public License v3.0(GPL-3.0-onlyの)下、再頒布および使用が許可されています。
+- このソフトウェアパッケージは、3条項BSDライセンスの下、再頒布および使用が許可されています。
 - この[README](https://github.com/tadano0504/robosys2025/blob/main/README.md)は、[asnm1208](https://github.com/asnm1208)の[robosys2025](https://github.com/asnm1208/robosys2025/blob/main/README.md)(© 2025 asnm1208)と[Tsutaya113](https://github.com/Tsutaya113)の[robosys2025](https://github.com/Tsutaya113/robosys2025/blob/main/README.md)(© 2025 Tsutaya113)を参考に作られています。
 - © 2025 Tadano Keito
