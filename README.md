@@ -1,5 +1,5 @@
 # robosys2025
-![CI](https://github.com/tadano0504/robosys2025/actions/workflows/test.yml/badge.svg)
+![test](https://github.com/tadano0504/robosys2025/actions/workflows/test.yml/badge.svg)
 
 本リポジトリは千葉工業大学 未来ロボティクス学科 2025年度 ロボットシステム学内で行った内容に基づいて作成された練習用リポジトリです。
 
@@ -10,9 +10,9 @@
 入力されたチーム名が存在しない場合は、利用可能なチーム一覧を表示します。
 
 ## テスト環境
-OS            : Ubuntu 22.04.5 LTS / Windows 11  
+OS            : Ubuntu 22.04.5 LTS（WSL2） 
 python-version: 3.7 ~ 3.12  
-確認環境      : Ubuntu 22.04.5 LTS + GitHub Actions (ubuntu-latest)
+確認環境      : GitHub Actions (ubuntu-latest)
 
 ## 実行準備
 下記のコマンドを使用し、クローンを行ってください。
@@ -81,4 +81,7 @@ $ echo "abcdef" | ./score
 ## 著作権・ライセンス
 - このソフトウェアパッケージは、GNU General Public License v3.0（GPL-3.0-only）の下、再頒布および使用が許可されています。
 - この[README](https://github.com/tadano0504/robosys2025/blob/main/README.md)は、[asnm1208](https://github.com/asnm1208)の[robosys2025](https://github.com/asnm1208/robosys2025/blob/main/README.md)(© 2025 asnm1208)と[Tsutaya113](https://github.com/Tsutaya113)の[robosys2025](https://github.com/Tsutaya113/robosys2025/blob/main/README.md)(© 2025 Tsutaya113)を参考に作られています。
-- © 2025 Tadano Keito
+- © 2025 Tadano Keito## テスト環境
+OS            : Ubuntu 22.04.5 LTS（WSL2）
+python-version: 3.7 ~ 3.12
+確認環境      : Ubuntu 22.04.5 LTS + GitHub Actions (ubuntu-latest)
