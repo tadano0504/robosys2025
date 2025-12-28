@@ -10,7 +10,7 @@
 入力されたチーム名が存在しない場合は、利用可能なチーム一覧を表示します。
 
 ## テスト環境
-OS            : Ubuntu 22.04.5 LTS（WSL2） 
+OS            : Ubuntu 22.04.5 LTS(WSL2)   
 python-version: 3.7 ~ 3.12  
 確認環境      : GitHub Actions (ubuntu-latest)
 
@@ -25,7 +25,7 @@ $ cd robosys2025
 ## 使い方
 標準入力からチーム名を入力します。
 
-実行例（Real Madrid の試合結果を取得）:
+実行例(Real Madrid の試合結果を取得):
 
 ```shell
 $ echo "Real Madrid" | ./score
@@ -75,13 +75,10 @@ $ echo "abcdef" | ./score
 - 存在しない名前　　: `入力したチーム名が見つかりません` を表示し、チーム一覧を出力  
 - 記号・制御文字など : `入力したチーム名が見つかりません` を表示し、チーム一覧を出力  
 - 試合データなし　　 : `データがありません` を表示
-- エラーメッセージおよびチーム一覧は標準エラー出力（stderr）に出力されます。
+- エラーメッセージおよびチーム一覧は標準エラー出力(stderr)に出力されます。
 - 不正な入力の場合は終了ステータス1で終了します。
 
 ## 著作権・ライセンス
-- このソフトウェアパッケージは、GNU General Public License v3.0（GPL-3.0-only）の下、再頒布および使用が許可されています。
+- このソフトウェアパッケージは、GNU General Public License v3.0(GPL-3.0-onlyの)下、再頒布および使用が許可されています。
 - この[README](https://github.com/tadano0504/robosys2025/blob/main/README.md)は、[asnm1208](https://github.com/asnm1208)の[robosys2025](https://github.com/asnm1208/robosys2025/blob/main/README.md)(© 2025 asnm1208)と[Tsutaya113](https://github.com/Tsutaya113)の[robosys2025](https://github.com/Tsutaya113/robosys2025/blob/main/README.md)(© 2025 Tsutaya113)を参考に作られています。
-- © 2025 Tadano Keito## テスト環境
-OS            : Ubuntu 22.04.5 LTS（WSL2）
-python-version: 3.7 ~ 3.12
-確認環境      : Ubuntu 22.04.5 LTS + GitHub Actions (ubuntu-latest)
+- © 2025 Tadano Keito
