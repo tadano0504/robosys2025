@@ -9,9 +9,9 @@
 入力されたチーム名が存在しない場合は、利用可能なチーム一覧を表示します。
 
 ## テスト環境
-OS            : Ubuntu 22.04.5 LTS(WSL2)   
-python-version: 3.7 ~ 3.12  
-確認環境      : GitHub Actions (ubuntu-latest)
+OS            　　: Ubuntu 22.04.5 LTS(WSL2)   
+pythonのバージョン: 3.7 ~ 3.12  
+確認環境      　　: GitHub Actions
 
 ## 実行準備
 下記のコマンドを使用し、クローンを行ってください。
